@@ -1,28 +1,29 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { Row, Col, Container } from 'reactstrap';
+import { connect } from 'react-redux';
 import OrganizationCard from '../Common/OrganizationCard';
 import SortBar from '../Common/SortBar.js';
 import SearchBar from '../Header/SearchBar';
-import {getDistance} from '../../utils/distance.js';
-import { Row, Col, Container } from 'reactstrap';
+import { getDistance } from '../../utils/distance.js';
 
 export class CardGrid extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props){
+    super(props)
 
-        this.state = {
-            dataSort: this.sortByAlphabet,
-        }
+    this.state = {
+      dataSort: this.sortByAlphabet,
+    }
+  }
+
+  getCloserResource = (a , b) => {
+    if(getDistance(a,this.props.currentPos)
+    > getDistance(b,this.props.currentPos)){
+      return 1;
     }
 
-    getCloserResource = (a, b) => {
-        if (getDistance(a, this.props.currentPos)
-            > getDistance(b, this.props.currentPos)) {
-            return 1;
-        }
+    return -1;
+  }
 
-        return -1;
-    }
   getCloserName = (a, b) => {
     if(a.name > b.name) return 1
     else if(a.name < b.name ) return -1
@@ -60,32 +61,37 @@ export class CardGrid extends Component {
 
     return (
       <Container style={{overflowY: "scroll"}}>
-      <Row>
-        <Col>
-        <SearchBar
-          type="text"
-          handleFilter={this.props.handleFilter} /></Col>
-        <Col><SortBar
-          onSortChange={this.handleSortChange}
-          sortOptions={sortOptions}
-        /></Col>
-      </Row>
-          <Row>
-            {
-              sortedData.map((resource, index) => (
-                <Col key={resource.id} lg="6" xs="12">
-                  <OrganizationCard
-                      key={resource.id}
-                      index={resource.id}
-                      organization={resource}
-                      currentPos={this.props.currentPos}
-                      saveItem={() => this.props.saveItem(resource)}
-                      saveable={true}
-                  />
-                </Col>
-              ))
-            }
-          </Row>
+        <Row>
+          <Col>
+            <SearchBar
+              type="text"
+              handleFilter={this.props.handleFilter}
+            />
+          </Col>
+          <Col>
+            <SortBar
+              onSortChange={this.handleSortChange}
+              sortOptions={sortOptions}
+            />
+          </Col>
+        </Row>
+        <Row>
+          {
+            sortedData.map((resource, index) => (
+              // classes are bootstrap helper classes, see: https://getbootstrap.com/docs/4.0/utilities/flex/
+              <Col key={resource.id} xs="12" lg="6" className="d-flex my-2 align-content-stretch justify-content-stretch">
+                <OrganizationCard
+                  key={resource.id}
+                  index={resource.id}
+                  organization={resource}
+                  currentPos={this.props.currentPos}
+                  saveItem={() => this.props.saveItem(resource)}
+                  saveable={true}
+                />
+              </Col>
+            ))
+          }
+        </Row>
       </Container>
     );
   }
@@ -94,8 +100,8 @@ export class CardGrid extends Component {
 function mapStateToProps(state, ownProps) {
     let res = [];
     //Not the most efficient logic, but it works. Will have to optimize this later
-    for (var i = 0, len1 = state.searchedResource.length; i < len1; i++) {
-        for (var j = 0, len2 = state.filteredResource.length; j < len2; j++) {
+    for (let i = 0, len1 = state.searchedResource.length; i < len1; i++) {
+        for (let j = 0, len2 = state.filteredResource.length; j < len2; j++) {
             if (state.searchedResource[i].id === state.filteredResource[j].id) {
                 res.push(state.searchedResource[i])
             }
