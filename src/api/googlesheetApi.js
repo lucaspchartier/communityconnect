@@ -15,7 +15,7 @@ function normalizeHeaders(element) {
   }
 
   if (element.city || element.address || element.state || element.zipcode) {
-    // element.location = element.address+ " " + element.city + ", " + element.state + " " + element.zipcode;
+    // element.location = element.address + " " + element.city + ", " + element.state + " " + element.zipcode;
     element.location = element["combinedaddress"];
   } else {
     element.location = "";
@@ -36,4 +36,3 @@ export let getAllResources = new Promise(function(resolve, reject){
     }
   });
 })
-

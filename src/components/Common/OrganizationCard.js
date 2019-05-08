@@ -19,7 +19,6 @@ class OrganizationCard extends Component {
         this.state = {
             saveExist: false
         }
-        console.log(this.state.saveExist)
     }
     static getDerivedStateFromProps(props){
         if(!props.savedResource.some(r => r.id === props.organization.id)){
