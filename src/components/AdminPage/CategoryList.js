@@ -28,7 +28,7 @@ export class CategoryList extends Component {
 
   categoryMenuItems() {
     return this.props.categories.map((cat) =>
-      <FormGroup className={styles.FormGroup} key={cat} check>
+      <FormGroup key={cat} check>
         <Input type="checkbox" key={cat} onChange={() => this.handleChange(cat)} />{cat}
       </FormGroup>);
   }
