@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import * as resourceAction from "../../action/resourceDataAction";
 import cx from "classnames";
+import ViewToggle from './ViewToggle'
 
 import {
   Navbar,
@@ -67,6 +68,7 @@ class Header extends Component {
         >
           <NavbarBrand className="Logo" onClick={this.modalOpen}>
             <span>Community Connect</span>
+            <ViewToggle />
           </NavbarBrand>
           <Route
             path="/:resource/admin"
